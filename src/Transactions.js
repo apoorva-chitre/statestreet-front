@@ -13,13 +13,24 @@ class Transactions extends Component {
       }
       this.handleAccountFilter = this.handleAccountFilter.bind(this)
       this.handleTransactionType = this.handleTransactionType.bind(this)
+
     }
 
     transactions = data.transactions;
 
 
     renderTableData() {
-      return this.transactions.map((transaction) => {
+      let filteredData;
+
+      if(this.state.selectedTransactionTypes.length || this.state.selectedAccountNames.length) {
+        filteredData = this.transactions.filter( 
+        item => this.state.selectedAccountNames.includes(item.accountName) || 
+        this.state.selectedTransactionTypes.includes(item.transactionType))
+      } else {
+        filteredData = this.transactions;
+      }
+
+      return filteredData.map((transaction) => {
          const { account, accountName, currencyCode, amount, transactionType } = transaction //destructuring
          return (
             <tr key={account}>
@@ -85,23 +96,29 @@ class Transactions extends Component {
 
     handleAccountFilter(event) {
       if(event.target.checked){
-        let updated = this.state.selectedAccountNames.slice();
-        updated.push(event.target.value)
-        this.setState({selectedAccountNames: updated});
-        console.log(this.state.selectedAccountNames)
+        this.setState({
+          selectedAccountNames: this.state.selectedAccountNames.concat([event.target.value])
+        })
       } else {
-        console.log('unchecked');
+        this.setState({
+          selectedAccountNames : this.state.selectedAccountNames.filter(
+            function(val) {return val!==event.target.value}
+          )
+        })
       }
     }
 
     handleTransactionType(event) {
       if(event.target.checked){
-        let updated = this.state.selectedTransactionTypes.slice();
-        updated.push(event.target.value)
-        this.setState({selectedTransactionTypes: updated});
-        console.log(this.state.selectedTransactionTypes)
+        this.setState({
+          selectedTransactionTypes: this.state.selectedTransactionTypes.concat([event.target.value])
+        })
       } else {
-        console.log('unchecked');
+        this.setState({
+          selectedTransactionTypes : this.state.selectedTransactionTypes.filter(
+            function(val) {return val!==event.target.value}
+          )
+        })
       }
     }
 
