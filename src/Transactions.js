@@ -21,11 +21,14 @@ class Transactions extends Component {
 
     renderTableData() {
       let filteredData;
-
-      if(this.state.selectedTransactionTypes.length || this.state.selectedAccountNames.length) {
+      if(this.state.selectedTransactionTypes.length && this.state.selectedAccountNames.length) {
         filteredData = this.transactions.filter( 
-        item => this.state.selectedAccountNames.includes(item.accountName) || 
+        item => this.state.selectedAccountNames.includes(item.accountName) && 
         this.state.selectedTransactionTypes.includes(item.transactionType))
+      } else if(this.state.selectedTransactionTypes.length || this.state.selectedAccountNames.length ){
+        filteredData = this.transactions.filter( 
+          item => this.state.selectedAccountNames.includes(item.accountName) || 
+          this.state.selectedTransactionTypes.includes(item.transactionType))
       } else {
         filteredData = this.transactions;
       }
