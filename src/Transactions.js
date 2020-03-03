@@ -5,7 +5,18 @@ import { Link } from 'react-router-dom';
 
 class Transactions extends Component {
 
+    constructor(props) {
+      super(props)
+      this.state = {
+        selectedAccountNames: [],
+        selectedTransactionTypes: []
+      }
+      this.handleAccountFilter = this.handleAccountFilter.bind(this)
+      this.handleTransactionType = this.handleTransactionType.bind(this)
+    }
+
     transactions = data.transactions;
+
 
     renderTableData() {
       return this.transactions.map((transaction) => {
@@ -33,6 +44,8 @@ class Transactions extends Component {
             <input
               type="checkbox"
               name={accountName}
+              value={accountName}
+              onChange={this.handleAccountFilter}
             />
               &nbsp;&nbsp;{ accountName }
             </label>
@@ -51,6 +64,8 @@ class Transactions extends Component {
             <input
               type="checkbox"
               name={transactionType}
+              value={transactionType}
+              onChange={this.handleTransactionType}
             />
               &nbsp;&nbsp;{ this.toTitleCase(transactionType) }
             </label>
@@ -66,6 +81,28 @@ class Transactions extends Component {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
           }
       );
+    }
+
+    handleAccountFilter(event) {
+      if(event.target.checked){
+        let updated = this.state.selectedAccountNames.slice();
+        updated.push(event.target.value)
+        this.setState({selectedAccountNames: updated});
+        console.log(this.state.selectedAccountNames)
+      } else {
+        console.log('unchecked');
+      }
+    }
+
+    handleTransactionType(event) {
+      if(event.target.checked){
+        let updated = this.state.selectedTransactionTypes.slice();
+        updated.push(event.target.value)
+        this.setState({selectedTransactionTypes: updated});
+        console.log(this.state.selectedTransactionTypes)
+      } else {
+        console.log('unchecked');
+      }
     }
 
     render() {
