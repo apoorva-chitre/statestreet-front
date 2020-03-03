@@ -6,10 +6,10 @@ Clone the github repository
 
 cd into the project
 
-Run ### `npm install` 
+Run `npm install` 
 
-Run ### `npm start`
+Run `npm start`
 
 to build the project,
 
-Run ### `npm run build`
+Run `npm run build`
